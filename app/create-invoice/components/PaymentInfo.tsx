@@ -51,12 +51,12 @@ export default function PaymentInfo({ onSave, initialData }: PaymentInfoProps) {
   }, []);
 
   return (
-    <div className="space-y-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Information</h2>
-      
+    <div className="space-y-6 p-4 bg-gray-800 rounded-lg shadow">
+      <h2 className="text-xl font-semibold text-white">Payment Information</h2>
+
       <div className="space-y-4">
         <div>
-          <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-300">
             Payment Method
           </label>
           <select
@@ -64,7 +64,7 @@ export default function PaymentInfo({ onSave, initialData }: PaymentInfoProps) {
             name="paymentMethod"
             value={formData.paymentMethod}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 bg-gray-700 border-gray-600 text-white"
           >
             {paymentMethods.map(method => (
               <option key={method} value={method}>
@@ -75,7 +75,7 @@ export default function PaymentInfo({ onSave, initialData }: PaymentInfoProps) {
         </div>
 
         <div>
-          <label htmlFor="paymentInstructions" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="paymentInstructions" className="block text-sm font-medium text-gray-300">
             Payment Instructions
           </label>
           <textarea
@@ -85,12 +85,12 @@ export default function PaymentInfo({ onSave, initialData }: PaymentInfoProps) {
             value={formData.paymentInstructions}
             onChange={handleChange}
             placeholder="Enter payment instructions..."
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 bg-gray-700 border-gray-600 text-white"
           />
         </div>
 
         <div>
-          <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="notes" className="block text-sm font-medium text-gray-300">
             Notes
           </label>
           <textarea
@@ -100,12 +100,12 @@ export default function PaymentInfo({ onSave, initialData }: PaymentInfoProps) {
             value={formData.notes}
             onChange={handleChange}
             placeholder="Enter any additional notes..."
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 bg-gray-700 border-gray-600 text-white"
           />
         </div>
 
         <div>
-          <label htmlFor="termsAndConditions" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label htmlFor="termsAndConditions" className="block text-sm font-medium text-gray-300">
             Terms & Conditions
           </label>
           <textarea
@@ -115,7 +115,7 @@ export default function PaymentInfo({ onSave, initialData }: PaymentInfoProps) {
             value={formData.termsAndConditions}
             onChange={handleChange}
             placeholder="Enter terms and conditions..."
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 bg-gray-700 border-gray-600 text-white"
           />
         </div>
       </div>

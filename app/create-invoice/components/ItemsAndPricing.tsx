@@ -140,7 +140,7 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
       {/* Line Items */}
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-xl font-semibold text-white">
             Line Items
           </h3>
           <button
@@ -154,29 +154,29 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
         {/* Items List */}
         <div className="space-y-4">
           {formData.items.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+            <p className="text-gray-400 text-center py-4">
               No items added yet. Click "Add Item" to start.
             </p>
           ) : (
             formData.items.map(item => (
               <div 
                 key={item.id}
-                className="grid grid-cols-12 gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm"
+                className="grid grid-cols-12 gap-4 p-4 bg-gray-800 rounded-lg shadow-sm"
               >
                 <div className="col-span-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Description
                   </label>
                   <input
                     type="text"
                     value={item.description}
                     onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                     placeholder="Item description"
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Quantity
                   </label>
                   <input
@@ -184,15 +184,15 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
                     min="1"
                     value={item.quantity}
                     onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Unit Price
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400">
+                    <span className="absolute left-3 top-2.5 text-gray-400">
                       {currency === 'USD' ? '$' : currency}
                     </span>
                     <input
@@ -201,30 +201,30 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
                       step="0.01"
                       value={item.unitPrice}
                       onChange={(e) => updateItem(item.id, 'unitPrice', e.target.value)}
-                      className="w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full pl-8 pr-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                     />
                   </div>
                 </div>
                 <div className="col-span-3">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
                     Total
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400">
+                    <span className="absolute left-3 top-2.5 text-gray-400">
                       {currency === 'USD' ? '$' : currency}
                     </span>
                     <input
                       type="number"
                       value={item.total}
                       disabled
-                      className="w-full pl-8 pr-3 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-500 dark:text-gray-400"
+                      className="w-full pl-8 pr-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-400"
                     />
                   </div>
                 </div>
                 <div className="col-span-1 flex items-end">
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="p-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                    className="p-2 text-red-400 hover:text-red-300"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -241,13 +241,13 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Tax and Discount */}
         <div className="space-y-4">
-          <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+          <h4 className="text-lg font-medium text-white">
             Adjustments
           </h4>
           
           {/* Tax Rate */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">
               Tax Rate (%)
             </label>
             <input
@@ -257,27 +257,27 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
               step="0.1"
               value={formData.taxRate}
               onChange={(e) => updatePricing('taxRate', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
             />
           </div>
 
           {/* Discount */}
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-gray-300">
               Discount
             </label>
             <div className="flex gap-4">
               <select
                 value={formData.discountType}
                 onChange={(e) => updatePricing('discountType', e.target.value)}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
               >
                 <option value="percentage">Percentage (%)</option>
                 <option value="fixed">Fixed Amount</option>
               </select>
               <div className="relative flex-1">
                 {formData.discountType === 'fixed' && (
-                  <span className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400">
+                  <span className="absolute left-3 top-2.5 text-gray-400">
                     {currency === 'USD' ? '$' : currency}
                   </span>
                 )}
@@ -288,7 +288,7 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
                   max={formData.discountType === 'percentage' ? '100' : undefined}
                   value={formData.discountValue}
                   onChange={(e) => updatePricing('discountValue', e.target.value)}
-                  className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                  className={`w-full px-3 py-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white ${
                     formData.discountType === 'fixed' ? 'pl-8' : ''
                   }`}
                 />
@@ -298,40 +298,40 @@ export default function ItemsAndPricing({ onSave, initialData, currency = 'USD' 
         </div>
 
         {/* Summary */}
-        <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg space-y-3">
-          <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+        <div className="bg-gray-700 p-4 rounded-lg space-y-3">
+          <h4 className="text-lg font-medium text-white mb-4">
             Summary
           </h4>
           
           <div className="flex justify-between text-sm">
-            <span className="text-gray-600 dark:text-gray-400">Subtotal:</span>
-            <span className="text-gray-900 dark:text-white">
+            <span className="text-gray-400">Subtotal:</span>
+            <span className="text-white">
               {currency === 'USD' ? '$' : currency} {formData.subtotal.toFixed(2)}
             </span>
           </div>
 
           <div className="flex justify-between text-sm">
-            <span className="text-gray-600 dark:text-gray-400">
+            <span className="text-gray-400">
               Tax ({formData.taxRate}%):
             </span>
-            <span className="text-gray-900 dark:text-white">
+            <span className="text-white">
               {currency === 'USD' ? '$' : currency} {formData.taxAmount.toFixed(2)}
             </span>
           </div>
 
           <div className="flex justify-between text-sm">
-            <span className="text-gray-600 dark:text-gray-400">
+            <span className="text-gray-400">
               Discount {formData.discountType === 'percentage' ? `(${formData.discountValue}%)` : ''}:
             </span>
-            <span className="text-gray-900 dark:text-white">
+            <span className="text-white">
               - {currency === 'USD' ? '$' : currency} {formData.discountAmount.toFixed(2)}
             </span>
           </div>
 
-          <div className="pt-3 border-t border-gray-200 dark:border-gray-600">
+          <div className="pt-3 border-t border-gray-600">
             <div className="flex justify-between font-medium">
-              <span className="text-gray-900 dark:text-white">Total:</span>
-              <span className="text-blue-600 dark:text-blue-400 text-lg">
+              <span className="text-white">Total:</span>
+              <span className="text-blue-400 text-lg">
                 {currency === 'USD' ? '$' : currency} {formData.total.toFixed(2)}
               </span>
             </div>

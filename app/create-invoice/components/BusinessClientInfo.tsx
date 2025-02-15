@@ -87,14 +87,14 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Business Information */}
       <div>
-        <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+        <h3 className="text-xl font-semibold mb-4 text-white">
           Business Information
         </h3>
         <div className="space-y-4">
           <div>
             <label 
               htmlFor="businessName" 
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Business Name
             </label>
@@ -103,7 +103,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
               id="businessName"
               value={formData.business.businessName}
               onChange={(e) => handleBusinessChange('businessName', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
               placeholder="Enter your business name"
             />
           </div>
@@ -111,7 +111,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
           <div>
             <label 
               htmlFor="businessAddress" 
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Business Address
             </label>
@@ -120,7 +120,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
               value={formData.business.businessAddress}
               onChange={(e) => handleBusinessChange('businessAddress', e.target.value)}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
               placeholder="Enter your business address"
             />
           </div>
@@ -129,7 +129,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
             <div>
               <label 
                 htmlFor="businessPhone" 
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Phone Number
               </label>
@@ -138,14 +138,14 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
                 id="businessPhone"
                 value={formData.business.businessPhone}
                 onChange={(e) => handleBusinessChange('businessPhone', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                 placeholder="Enter phone number"
               />
             </div>
             <div>
               <label 
                 htmlFor="businessEmail" 
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Email Address
               </label>
@@ -154,7 +154,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
                 id="businessEmail"
                 value={formData.business.businessEmail}
                 onChange={(e) => handleBusinessChange('businessEmail', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                 placeholder="Enter email address"
               />
             </div>
@@ -162,12 +162,12 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
 
           <div>
             <label 
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Business Logo
             </label>
             <div className="mt-1 flex items-center space-x-4">
-              <div className="w-20 h-20 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg flex items-center justify-center overflow-hidden">
+              <div className="w-20 h-20 border-2 border-gray-600 border-dashed rounded-lg flex items-center justify-center overflow-hidden">
                 {formData.business.businessLogo ? (
                   <img src={formData.business.businessLogo} alt="Business logo" className="w-full h-full object-contain" />
                 ) : (
@@ -178,7 +178,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
               </div>
               <label 
                 htmlFor="logo-upload" 
-                className="cursor-pointer px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
+                className="cursor-pointer px-4 py-2 text-sm font-medium text-blue-400 hover:text-blue-300"
               >
                 Upload Logo
                 <input
@@ -196,14 +196,14 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
 
       {/* Client Information */}
       <div>
-        <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+        <h3 className="text-xl font-semibold mb-4 text-white">
           Client Information
         </h3>
         <div className="space-y-4">
           <div>
             <label 
               htmlFor="clientName" 
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Client Name / Company
             </label>
@@ -212,7 +212,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
               id="clientName"
               value={formData.client.clientName}
               onChange={(e) => handleClientChange('clientName', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
               placeholder="Enter client name or company"
             />
           </div>
@@ -220,7 +220,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
           <div>
             <label 
               htmlFor="clientAddress" 
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Client Address
             </label>
@@ -229,7 +229,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
               value={formData.client.clientAddress}
               onChange={(e) => handleClientChange('clientAddress', e.target.value)}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
               placeholder="Enter client address"
             />
           </div>
@@ -238,7 +238,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
             <div>
               <label 
                 htmlFor="clientPhone" 
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Phone Number
               </label>
@@ -247,14 +247,14 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
                 id="clientPhone"
                 value={formData.client.clientPhone}
                 onChange={(e) => handleClientChange('clientPhone', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                 placeholder="Enter phone number"
               />
             </div>
             <div>
               <label 
                 htmlFor="clientEmail" 
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                className="block text-sm font-medium text-gray-300 mb-1"
               >
                 Email Address
               </label>
@@ -263,7 +263,7 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
                 id="clientEmail"
                 value={formData.client.clientEmail}
                 onChange={(e) => handleClientChange('clientEmail', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-700 text-white"
                 placeholder="Enter email address"
               />
             </div>

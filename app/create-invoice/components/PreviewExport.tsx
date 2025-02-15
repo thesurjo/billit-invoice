@@ -160,13 +160,13 @@ export default function PreviewExport({ formData }: PreviewExportProps) {
   return (
     <div className="space-y-8">
       {/* Export Options */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-        <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+      <div className="bg-gray-800 rounded-lg p-6 shadow-sm">
+        <h3 className="text-xl font-semibold mb-4 text-white">
           Export Options
         </h3>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 space-y-2">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-medium text-gray-300">
               Format
             </label>
             <div className="flex gap-4">
@@ -174,8 +174,8 @@ export default function PreviewExport({ formData }: PreviewExportProps) {
                 onClick={() => setExportFormat('pdf')}
                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
                   exportFormat === 'pdf'
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
-                    : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300'
+                    ? 'border-blue-500 bg-blue-50 bg-blue-900/20  text-blue-400'
+                    : 'border-gray-700 text-gray-300'
                 }`}
               >
                 PDF
@@ -184,8 +184,8 @@ export default function PreviewExport({ formData }: PreviewExportProps) {
                 onClick={() => setExportFormat('html')}
                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
                   exportFormat === 'html'
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
-                    : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300'
+                    ? 'border-blue-500 bg-blue-50 bg-blue-900/20  text-blue-400'
+                    : 'border-gray-700 text-gray-300'
                 }`}
               >
                 HTML
@@ -194,8 +194,8 @@ export default function PreviewExport({ formData }: PreviewExportProps) {
                 onClick={() => setExportFormat('json')}
                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
                   exportFormat === 'json'
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400'
-                    : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300'
+                    ? 'border-blue-500 bg-blue-50 bg-blue-900/20  text-blue-400'
+                    : 'border-gray-700 text-gray-300'
                 }`}
               >
                 JSON

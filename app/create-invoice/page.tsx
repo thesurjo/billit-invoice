@@ -190,7 +190,7 @@ export default function CreateInvoice() {
         return <PreviewExport formData={formData} />;
       default:
         return (
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-300">
             Step {currentStep} content will be implemented next
           </p>
         );
@@ -210,20 +210,20 @@ export default function CreateInvoice() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-900 py-8">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="flex justify-between items-center mb-12">
           <button 
             onClick={handleBackToHome}
-            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-2 group"
+            className="text-gray-300 hover:text-white flex items-center gap-2 group"
           >
             <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Back to Home
           </button>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Invoice</h1>
+          <h1 className="text-2xl font-bold text-white">Create New Invoice</h1>
         </div>
 
         {/* Progress Steps - Modern Timeline */}
@@ -231,7 +231,7 @@ export default function CreateInvoice() {
           <div className="min-w-max">
             <div className="relative flex items-center justify-between md:px-8 py-4">
               {/* Progress Bar Background */}
-              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 dark:bg-gray-700"></div>
+              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-700"></div>
               
               {/* Active Progress Bar with Gradient */}
               <div 
@@ -252,10 +252,10 @@ export default function CreateInvoice() {
                         relative flex items-center justify-center w-14 h-14 rounded-full 
                         transition-all duration-500 ease-out
                         ${currentStep === step.id 
-                          ? 'bg-gradient-to-r from-blue-500 to-indigo-600 ring-4 ring-blue-100 dark:ring-blue-900 scale-110 shadow-xl' 
+                          ? 'bg-gradient-to-r from-blue-500 to-indigo-600 ring-4 ring-blue-900 scale-110 shadow-xl' 
                           : currentStep > step.id 
-                            ? 'bg-green-500 ring-4 ring-green-100 dark:ring-green-900' 
-                            : 'bg-white dark:bg-gray-800 ring-4 ring-gray-100 dark:ring-gray-700'}
+                            ? 'bg-green-500 ring-4 ring-green-900' 
+                            : 'bg-gray-800 ring-4 ring-gray-700'}
                         ${currentStep >= step.id ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed'}
                       `}
                       onClick={() => currentStep >= step.id && setCurrentStep(step.id)}
@@ -263,7 +263,7 @@ export default function CreateInvoice() {
                       <div className={`
                         transition-all duration-300
                         ${currentStep === step.id ? 'scale-100' : 'scale-90'}
-                        ${currentStep > step.id ? 'text-white' : currentStep === step.id ? 'text-white' : 'text-gray-400 dark:text-gray-500'}
+                        ${currentStep > step.id ? 'text-white' : currentStep === step.id ? 'text-white' : 'text-gray-500'}
                       `}>
                         {currentStep > step.id ? (
                           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,10 +287,10 @@ export default function CreateInvoice() {
                       <span className={`
                         hidden md:block text-xs font-semibold uppercase tracking-wider text-center
                         ${currentStep === step.id 
-                          ? 'text-blue-600 dark:text-blue-400' 
+                          ? 'text-blue-400' 
                           : currentStep > step.id
                             ? 'text-green-500'
-                            : 'text-gray-400 dark:text-gray-500'}
+                            : 'text-gray-500'}
                       `}>
                         Step {step.id}
                       </span>
@@ -299,10 +299,10 @@ export default function CreateInvoice() {
                       <h3 className={`
                         text-sm font-medium text-center whitespace-nowrap px-2
                         ${currentStep === step.id 
-                          ? 'text-gray-900 dark:text-white' 
+                          ? 'text-white' 
                           : currentStep > step.id
-                            ? 'text-green-600 dark:text-green-400'
-                            : 'text-gray-500 dark:text-gray-400'}
+                            ? 'text-green-400'
+                            : 'text-gray-400'}
                       `}>
                         {step.title}
                       </h3>
@@ -311,8 +311,8 @@ export default function CreateInvoice() {
                       <p className={`
                         hidden md:block text-xs text-center
                         ${currentStep === step.id 
-                          ? 'text-gray-600 dark:text-gray-300' 
-                          : 'text-gray-400 dark:text-gray-500'}
+                          ? 'text-gray-300' 
+                          : 'text-gray-500'}
                       `}>
                         {step.description}
                       </p>
@@ -325,7 +325,7 @@ export default function CreateInvoice() {
         </div>
 
         {/* Form Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+        <div className="bg-gray-800 rounded-2xl shadow-lg p-8">
           {renderStepContent()}
 
           {/* Navigation Buttons */}
@@ -334,7 +334,7 @@ export default function CreateInvoice() {
               <button
                 onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
                 disabled={currentStep === 1}
-                className="group px-6 py-3 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2"
+                className="group px-6 py-3 text-gray-300 border border-gray-600 rounded-xl hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2"
               >
                 <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
