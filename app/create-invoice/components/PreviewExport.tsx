@@ -85,16 +85,39 @@ export default function PreviewExport({ formData }: PreviewExportProps) {
         case 'pdf':
           const element = document.getElementById('invoice-preview');
           if (element) {
+            // Reset any scaling before capturing
+            element.style.transform = 'scale(1)';
+            
             const canvas = await html2canvas(element, {
               scale: 2,
               logging: false,
-              useCORS: true
+              useCORS: true,
+              allowTaint: true,
+              backgroundColor: '#ffffff',
+              width: 795, // A4 width at 96 DPI
+              height: 1123, // A4 height at 96 DPI
+              windowWidth: 795,
+              windowHeight: 1123,
             });
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgData = canvas.toDataURL('image/png');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            
+            // Restore the scaling after capture
+            element.style.transform = '';
+
+            const pdf = new jsPDF({
+              format: 'a4',
+              unit: 'mm',
+              orientation: 'portrait'
+            });
+
+            pdf.addImage(
+              canvas.toDataURL('image/png'),
+              'PNG',
+              0,
+              0,
+              210, // A4 width in mm
+              297 // A4 height in mm
+            );
+            
             pdf.save(`invoice-${formData.invoice.invoiceNumber}.pdf`);
           }
           break;
@@ -192,191 +215,210 @@ export default function PreviewExport({ formData }: PreviewExportProps) {
       </div>
 
       {/* Invoice Preview */}
-      <div id="invoice-preview" className="bg-white rounded-lg p-8 shadow-lg max-w-4xl mx-auto">
-        {/* Header Section */}
-        <div className="flex justify-between items-start pb-8 border-b border-gray-200">
-          {/* Business Info */}
-          <div className="space-y-4">
-            {formData.business.businessLogo && (
-              <img 
-                src={formData.business.businessLogo} 
-                alt="Business Logo" 
-                className="h-20 w-auto object-contain"
-              />
-            )}
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {formData.business.businessName || 'Your Business Name'}
-              </h1>
-              <div className="mt-2 text-gray-600 text-sm leading-relaxed">
-                {formData.business.businessAddress && (
-                  <p className="whitespace-pre-line">{formData.business.businessAddress}</p>
+      <div className="w-full overflow-x-auto bg-gray-50 rounded-lg p-4">
+        <div className="max-w-[210mm] mx-auto">
+          <div 
+            id="invoice-preview" 
+            className="bg-white rounded-lg shadow-lg origin-top-left scale-[0.45] xs:scale-[0.55] sm:scale-[0.75] md:scale-[0.85] lg:scale-100"
+            style={{
+              width: '210mm',
+              minHeight: '297mm',
+              padding: '20mm',
+              boxSizing: 'border-box',
+              transformOrigin: 'top left'
+            }}
+          >
+            {/* Header Section */}
+            <div className="flex flex-col sm:flex-row justify-between items-start pb-8 border-b border-gray-200 gap-4">
+              {/* Business Info */}
+              <div className="space-y-4 max-w-[50%]">
+                {formData.business.businessLogo && (
+                  <img 
+                    src={formData.business.businessLogo} 
+                    alt="Business Logo" 
+                    className="h-20 w-auto object-contain"
+                  />
                 )}
-                {formData.business.businessPhone && (
-                  <p className="mt-1">Tel: {formData.business.businessPhone}</p>
-                )}
-                {formData.business.businessEmail && (
-                  <p>{formData.business.businessEmail}</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Invoice Details */}
-          <div className="text-right">
-            <h2 className="text-4xl font-extrabold tracking-tight text-blue-600 mb-4">
-              INVOICE
-            </h2>
-            <div className="space-y-1 text-sm">
-              <div className="flex justify-end items-center space-x-4">
-                <span className="text-gray-500">Invoice No:</span>
-                <span className="text-gray-900 font-medium">{formData.invoice.invoiceNumber}</span>
-              </div>
-              <div className="flex justify-end items-center space-x-4">
-                <span className="text-gray-500">Issue Date:</span>
-                <span className="text-gray-900">{formatDate(formData.invoice.invoiceDate)}</span>
-              </div>
-              <div className="flex justify-end items-center space-x-4">
-                <span className="text-gray-500">Due Date:</span>
-                <span className="text-gray-900">{formatDate(formData.invoice.dueDate)}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Client Info */}
-        <div className="py-8 border-b border-gray-200">
-          <div className="max-w-md">
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
-              Bill To
-            </h3>
-            <div className="space-y-1">
-              <h4 className="text-lg font-semibold text-gray-900">
-                {formData.client.clientName}
-              </h4>
-              <div className="text-gray-600 text-sm leading-relaxed">
-                {formData.client.clientAddress && (
-                  <p className="whitespace-pre-line">{formData.client.clientAddress}</p>
-                )}
-                {formData.client.clientPhone && (
-                  <p className="mt-1">Tel: {formData.client.clientPhone}</p>
-                )}
-                {formData.client.clientEmail && (
-                  <p>{formData.client.clientEmail}</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Items Table */}
-        <div className="py-8 border-b border-gray-200">
-          {formData.pricing.items.length === 0 ? (
-            <div className="py-12 flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                </svg>
-              </div>
-              <h4 className="text-lg font-medium text-gray-900 mb-1">No Items Added</h4>
-              <p className="text-gray-500 text-sm max-w-sm">
-                Your invoice doesn't have any items yet. Add items in the "Items & Pricing" section to see them listed here.
-              </p>
-            </div>
-          ) : (
-            <table className="w-full">
-              <thead>
-                <tr className="text-sm text-gray-500 uppercase tracking-wider">
-                  <th className="pb-4 text-left">Description</th>
-                  <th className="pb-4 text-right">Qty</th>
-                  <th className="pb-4 text-right">Unit Price</th>
-                  <th className="pb-4 text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody className="text-gray-800">
-                {formData.pricing.items.map(item => (
-                  <tr key={item.id} className="border-t border-gray-100">
-                    <td className="py-4">
-                      <div className="font-medium">{item.description}</div>
-                    </td>
-                    <td className="py-4 text-right">{item.quantity}</td>
-                    <td className="py-4 text-right">{formatCurrency(item.unitPrice)}</td>
-                    <td className="py-4 text-right font-medium">{formatCurrency(item.total)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-
-        {/* Totals Section */}
-        <div className="py-6 border-b border-gray-200">
-          <div className="w-80 ml-auto">
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Subtotal</span>
-                <span className="text-gray-800 font-medium">{formatCurrency(formData.pricing.subtotal)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Tax ({formData.pricing.taxRate}%)</span>
-                <span className="text-gray-800">{formatCurrency(formData.pricing.taxAmount)}</span>
-              </div>
-              {formData.pricing.discountAmount > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">
-                    Discount {formData.pricing.discountType === 'percentage' 
-                      ? `(${formData.pricing.discountValue}%)` 
-                      : ''}
-                  </span>
-                  <span className="text-gray-800">-{formatCurrency(formData.pricing.discountAmount)}</span>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    {formData.business.businessName || 'Your Business Name'}
+                  </h1>
+                  <div className="mt-2 text-gray-600 text-sm leading-relaxed">
+                    {formData.business.businessAddress && (
+                      <p className="whitespace-pre-line">{formData.business.businessAddress}</p>
+                    )}
+                    {formData.business.businessPhone && (
+                      <p className="mt-1">Tel: {formData.business.businessPhone}</p>
+                    )}
+                    {formData.business.businessEmail && (
+                      <p>{formData.business.businessEmail}</p>
+                    )}
+                  </div>
                 </div>
-              )}
-              <div className="pt-3 border-t border-gray-200">
-                <div className="flex justify-between">
-                  <span className="text-lg font-semibold text-gray-900">Total</span>
-                  <span className="text-xl font-bold text-blue-600">{formatCurrency(formData.pricing.total)}</span>
+              </div>
+
+              {/* Invoice Details */}
+              <div className="text-right max-w-[50%]">
+                <h2 className="text-4xl font-extrabold tracking-tight text-blue-600 mb-4">
+                  INVOICE
+                </h2>
+                <div className="space-y-2">
+                  <div className="flex justify-end items-center space-x-4">
+                    <span className="text-gray-500">Invoice No:</span>
+                    <span className="text-gray-900 font-medium">{formData.invoice.invoiceNumber}</span>
+                  </div>
+                  <div className="flex justify-end items-center space-x-4">
+                    <span className="text-gray-500">Issue Date:</span>
+                    <span className="text-gray-900">{formatDate(formData.invoice.invoiceDate)}</span>
+                  </div>
+                  <div className="flex justify-end items-center space-x-4">
+                    <span className="text-gray-500">Due Date:</span>
+                    <span className="text-gray-900">{formatDate(formData.invoice.dueDate)}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Payment Information */}
-        <div className="py-6 border-b border-gray-200">
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
-                Payment Method
-              </h3>
-              <p className="text-gray-800 font-medium">
-                {paymentMethodNames[formData.payment.paymentMethod]}
-              </p>
-              {formData.payment.paymentInstructions && (
-                <div className="mt-4 text-sm text-gray-600 whitespace-pre-line">
-                  {formData.payment.paymentInstructions}
+            {/* Rest of the sections with adjusted margins and padding */}
+            <div className="mt-8">
+              {/* Client Info */}
+              <div className="pb-8 border-b border-gray-200">
+                <div className="max-w-md">
+                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
+                    Bill To
+                  </h3>
+                  <div className="space-y-2">
+                    <h4 className="text-lg font-semibold text-gray-900">
+                      {formData.client.clientName}
+                    </h4>
+                    <div className="text-gray-600 text-sm leading-relaxed">
+                      {formData.client.clientAddress && (
+                        <p className="whitespace-pre-line">{formData.client.clientAddress}</p>
+                      )}
+                      {formData.client.clientPhone && (
+                        <p className="mt-1">Tel: {formData.client.clientPhone}</p>
+                      )}
+                      {formData.client.clientEmail && (
+                        <p>{formData.client.clientEmail}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-            {formData.payment.notes && (
-              <div>
-                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
-                  Notes
+              </div>
+
+              {/* Items Table */}
+              <div className="py-8 border-b border-gray-200">
+                {formData.pricing.items.length === 0 ? (
+                  <div className="py-8 sm:py-12 flex flex-col items-center justify-center text-center">
+                    <div className="w-12 sm:w-16 h-12 sm:h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                      <svg className="w-6 sm:w-8 h-6 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                      </svg>
+                    </div>
+                    <h4 className="text-base sm:text-lg font-medium text-gray-900 mb-1">No Items Added</h4>
+                    <p className="text-gray-500 text-xs sm:text-sm max-w-sm">
+                      Your invoice doesn't have any items yet. Add items in the "Items & Pricing" section to see them listed here.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    <table className="min-w-full table-fixed divide-y divide-gray-200">
+                      <thead>
+                        <tr className="text-xs text-gray-500 uppercase tracking-wider">
+                          <th scope="col" className="w-[45%] py-3 text-left">Description</th>
+                          <th scope="col" className="w-[15%] py-3 text-right">Qty</th>
+                          <th scope="col" className="w-[20%] py-3 text-right">Unit Price</th>
+                          <th scope="col" className="w-[20%] py-3 text-right">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {formData.pricing.items.map(item => (
+                          <tr key={item.id}>
+                            <td className="py-4 pr-4">
+                              <div className="text-sm text-gray-900">{item.description}</div>
+                            </td>
+                            <td className="py-4 text-right text-sm text-gray-900">{item.quantity}</td>
+                            <td className="py-4 text-right text-sm text-gray-900">{formatCurrency(item.unitPrice)}</td>
+                            <td className="py-4 text-right text-sm font-medium text-gray-900">{formatCurrency(item.total)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Totals Section */}
+              <div className="py-8 border-b border-gray-200">
+                <div className="w-72 ml-auto">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-500">Subtotal</span>
+                      <span className="text-gray-800 font-medium">{formatCurrency(formData.pricing.subtotal)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-500">Tax ({formData.pricing.taxRate}%)</span>
+                      <span className="text-gray-800">{formatCurrency(formData.pricing.taxAmount)}</span>
+                    </div>
+                    {formData.pricing.discountAmount > 0 && (
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-gray-500">
+                          Discount {formData.pricing.discountType === 'percentage' 
+                            ? `(${formData.pricing.discountValue}%)` 
+                            : ''}
+                        </span>
+                        <span className="text-gray-800">-{formatCurrency(formData.pricing.discountAmount)}</span>
+                      </div>
+                    )}
+                    <div className="pt-2 mt-2 border-t border-gray-200">
+                      <div className="flex justify-between items-center">
+                        <span className="text-base sm:text-lg font-semibold text-gray-900">Total</span>
+                        <span className="text-lg sm:text-xl font-bold text-blue-600">{formatCurrency(formData.pricing.total)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Information */}
+              <div className="py-8 border-b border-gray-200">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
+                      Payment Method
+                    </h3>
+                    <p className="text-gray-800 font-medium">
+                      {paymentMethodNames[formData.payment.paymentMethod]}
+                    </p>
+                    {formData.payment.paymentInstructions && (
+                      <div className="mt-3 text-sm text-gray-600 whitespace-pre-line">
+                        {formData.payment.paymentInstructions}
+                      </div>
+                    )}
+                  </div>
+                  {formData.payment.notes && (
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
+                        Notes
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {formData.payment.notes}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Terms & Conditions */}
+              <div className="pt-8">
+                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
+                  Terms & Conditions
                 </h3>
-                <p className="text-sm text-gray-600">
-                  {formData.payment.notes}
-                </p>
+                <div className="text-sm text-gray-600 whitespace-pre-line leading-relaxed">
+                  {formData.payment.terms}
+                </div>
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* Terms & Conditions */}
-        <div className="pt-6">
-          <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
-            Terms & Conditions
-          </h3>
-          <div className="text-sm text-gray-600 whitespace-pre-line leading-relaxed">
-            {formData.payment.terms}
+            </div>
           </div>
         </div>
       </div>
