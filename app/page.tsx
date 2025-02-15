@@ -100,7 +100,7 @@ export default function Home() {
                 </div>
                 <div className="relative">
                   <Image
-                    src="/invoice-preview.png"
+                    src="/add-invoice.png"
                     alt="Invoice Preview"
                     width={600}
                     height={400}
