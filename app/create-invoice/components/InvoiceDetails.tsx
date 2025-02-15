@@ -33,16 +33,19 @@ export default function InvoiceDetails({ onSave, initialData }: InvoiceDetailsPr
     ...initialData?.invoice
   });
 
-  const debouncedFormData = useDebounce(formData);
+  const debouncedFormData = useDebounce(formData, 500);
 
   // Save form data whenever the debounced value changes
   useEffect(() => {
-    onSave({ invoice: debouncedFormData });
-  }, [debouncedFormData, onSave]);
+    // Only save if the data has actually changed
+    if (JSON.stringify(debouncedFormData) !== JSON.stringify(initialData?.invoice)) {
+      onSave({ invoice: debouncedFormData });
+    }
+  }, [debouncedFormData, onSave, initialData]);
 
   // Generate a unique invoice number when component mounts
   useEffect(() => {
-    if (!formData.invoiceNumber) {
+    if (!initialData?.invoice?.invoiceNumber && !formData.invoiceNumber) {
       const timestamp = new Date().getTime().toString().slice(-6);
       const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
       setFormData(prev => ({
@@ -50,11 +53,11 @@ export default function InvoiceDetails({ onSave, initialData }: InvoiceDetailsPr
         invoiceNumber: `INV-${timestamp}-${random}`
       }));
     }
-  }, []);
+  }, [initialData]);
 
   // Set default due date to 30 days from today if not set
   useEffect(() => {
-    if (!formData.dueDate) {
+    if (!initialData?.invoice?.dueDate && !formData.dueDate) {
       const thirtyDaysFromNow = new Date();
       thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
       setFormData(prev => ({
@@ -62,7 +65,7 @@ export default function InvoiceDetails({ onSave, initialData }: InvoiceDetailsPr
         dueDate: thirtyDaysFromNow.toISOString().split('T')[0]
       }));
     }
-  }, []);
+  }, [initialData]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

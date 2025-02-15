@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { useDebounce } from '../hooks/useDebounce';
 
@@ -26,7 +26,7 @@ interface BusinessClientFormData {
 }
 
 export default function BusinessClientInfo({ onSave, initialData }: BusinessClientInfoProps) {
-  const [formData, setFormData] = useState<BusinessClientFormData>({
+  const [formData, setFormData] = useState<BusinessClientFormData>(() => ({
     business: {
       businessName: '',
       businessAddress: '',
@@ -42,14 +42,15 @@ export default function BusinessClientInfo({ onSave, initialData }: BusinessClie
       clientEmail: '',
       ...initialData?.client
     }
-  });
+  }));
 
-  const debouncedFormData = useDebounce(formData);
+  const debouncedFormData = useDebounce(formData, 500);
 
-  // Save form data whenever the debounced value changes
   useEffect(() => {
-    onSave(debouncedFormData);
-  }, [debouncedFormData, onSave]);
+    if (JSON.stringify(debouncedFormData) !== JSON.stringify(initialData)) {
+      onSave(debouncedFormData);
+    }
+  }, [debouncedFormData, initialData, onSave]);
 
   const handleBusinessChange = useCallback((field: string, value: string) => {
     setFormData(prev => ({

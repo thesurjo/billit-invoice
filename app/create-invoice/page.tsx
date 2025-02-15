@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import BusinessClientInfo from './components/BusinessClientInfo';
 import InvoiceDetails from './components/InvoiceDetails';
 import ItemsAndPricing from './components/ItemsAndPricing';
@@ -125,6 +126,8 @@ const defaultTerms = `1. Payment is due within the specified due date on the inv
 4. Please include the invoice number in your payment reference.`;
 
 export default function CreateInvoice() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     business: {},
@@ -153,11 +156,20 @@ export default function CreateInvoice() {
     }
   });
 
+  // Prevent hydration issues by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleSave = (data: Partial<FormData>) => {
     setFormData(prev => ({
       ...prev,
       ...data
     }));
+  };
+
+  const handleBackToHome = () => {
+    router.push('/');
   };
 
   const renderStepContent = () => {
@@ -193,20 +205,24 @@ export default function CreateInvoice() {
     setCurrentStep(Math.min(5, currentStep + 1));
   };
 
+  if (!mounted) {
+    return null; // Return null on server-side and first render
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="flex justify-between items-center mb-12">
-          <Link 
-            href="/"
+          <button 
+            onClick={handleBackToHome}
             className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-2 group"
           >
             <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Back to Home
-          </Link>
+          </button>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Invoice</h1>
         </div>
 
